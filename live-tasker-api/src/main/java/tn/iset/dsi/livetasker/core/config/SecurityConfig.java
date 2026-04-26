@@ -44,26 +44,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-    @Bean
-    public UserDetailsService userDetailsService(UserRepository repository) {
-        return username -> {
-            User user = repository.findByUsername(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .authorities(Collections.emptyList())
-                    .build();
-        };
-    }
 }

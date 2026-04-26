@@ -1,7 +1,29 @@
+spring:
+  datasource:
+    # Local MySQL is currently listening on 3306
+    url: jdbc:mysql://localhost:3306/live_tasker_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    # Use the specific MySQL 8 dialect for Spring Boot 3 compatibility
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Ensure Virtual Threads are still enabled
+  threads:
+    virtual:
+      enabled: true
+
 application:
   security:
     jwt:
-      # Use a long, random string for production
-      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-      # 86400000 ms = 24 hours
-      expiration: 86400000
+      # Must be at least 32 characters for HS256
+      secret-key: ${JWT_SECRET:live-tasker-super-secret-key-2026-please-change}
+      expiration: ${JWT_EXPIRATION:86400000}
